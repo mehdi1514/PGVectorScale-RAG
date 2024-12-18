@@ -89,6 +89,9 @@ target/
 # Exclude virtual environment
 .venv/
 
+# Exclude my virtual env
+myenv/
+
 # Exclude trained models
 /models/
 

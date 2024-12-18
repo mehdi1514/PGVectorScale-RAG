@@ -7,6 +7,7 @@ import pandas as pd
 from config.settings import get_settings
 from openai import OpenAI
 from timescale_vector import client
+import google.generativeai as genai
 
 
 class VectorStore:
@@ -17,6 +18,7 @@ class VectorStore:
         self.settings = get_settings()
         self.openai_client = OpenAI(api_key=self.settings.openai.api_key)
         self.embedding_model = self.settings.openai.embedding_model
+        genai.configure(api_key=self.settings.gemini.api_key)
         self.vector_settings = self.settings.vector_store
         self.vec_client = client.Sync(
             self.settings.database.service_url,
@@ -24,7 +26,7 @@ class VectorStore:
             self.vector_settings.embedding_dimensions,
             time_partition_interval=self.vector_settings.time_partition_interval,
         )
-
+        
     def get_embedding(self, text: str) -> List[float]:
         """
         Generate embedding for the given text.
@@ -45,9 +47,11 @@ class VectorStore:
             .data[0]
             .embedding
         )
+        # result = genai.embed_content(model="models/text-embedding-004", content=text)
         elapsed_time = time.time() - start_time
         logging.info(f"Embedding generated in {elapsed_time:.3f} seconds")
-        return embedding
+        return embedding # in case of gemini, return result['embedding']
+        # return result['embedding']
 
     def create_tables(self) -> None:
         """Create the necessary tablesin the database"""

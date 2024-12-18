@@ -1,3 +1,7 @@
+This repo is cloned from https://github.com/daveebbelaar/pgvectorscale-rag-solution. The only difference is that in this repo there is an option to use Google's `text-embedding-004` model as the embedding model in place of OpenAI's `text-embedding-3-small` model.
+
+Some of the code is also commented in `similarity_search.py` file.
+
 # Building a High-Performance RAG Solution with Pgvectorscale and Python
 
 This tutorial will guide you through setting up and using `pgvectorscale` with Docker and Python, leveraging OpenAI's powerful `text-embedding-3-small` model for embeddings. You'll learn to build a cutting-edge RAG (Retrieval-Augmented Generation) solution, combining advanced retrieval techniques (including hybrid search) with intelligent answer generation based on the retrieved context. Perfect for AI engineers looking to enhance their projects with state-of-the-art vector search and generation capabilities with the power of PostgreSQL.

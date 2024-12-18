@@ -33,6 +33,14 @@ class OpenAISettings(LLMSettings):
     embedding_model: str = Field(default="text-embedding-3-small")
 
 
+class GeminiSettings(LLMSettings):
+    """Gemini-specific settings extending LLMSettings."""
+
+    api_key: str = Field(default_factory=lambda: os.getenv("GEMINI_API_KEY"))
+    default_model: str = Field(default="gemini-1.5-flash")
+    embedding_model: str = Field(default="models/text-embedding-004")
+
+
 class DatabaseSettings(BaseModel):
     """Database connection settings."""
 
@@ -43,7 +51,7 @@ class VectorStoreSettings(BaseModel):
     """Settings for the VectorStore."""
 
     table_name: str = "embeddings"
-    embedding_dimensions: int = 1536
+    embedding_dimensions: int = 1536 # 1536 for openai text-embedding-3-small, 768 for gemini text-embedding-004
     time_partition_interval: timedelta = timedelta(days=7)
 
 
@@ -51,6 +59,7 @@ class Settings(BaseModel):
     """Main settings class combining all sub-settings."""
 
     openai: OpenAISettings = Field(default_factory=OpenAISettings)
+    gemini: GeminiSettings = Field(default_factory=GeminiSettings)
     database: DatabaseSettings = Field(default_factory=DatabaseSettings)
     vector_store: VectorStoreSettings = Field(default_factory=VectorStoreSettings)
 
